@@ -37,9 +37,12 @@ function renderPlants(plants) {
         const marker = L.marker([lat, lng], { icon: plantIcon })
             .addTo(map)
             .bindPopup(`
+            <div class="popup-content">
                 ${plant.image}<br/>
                 <strong>${plant.name}</strong><br/>
                 ${plant.description || ""}
+                <button onclick="sendSwapRequest('${plant._id}')" class="swap-button">Send swap request</button>
+            </div>
             `);
 
         markers.push(marker);
@@ -76,7 +79,6 @@ async function syncPlants() {
     }
 }
 
-// starta loopen EN gång
 syncPlants();
 
 // create plant
@@ -103,7 +105,6 @@ map.on("click", async (e) => {
 
 
 // user location
-
 map.locate({
     setView: false,
     enableHighAccuracy: true
