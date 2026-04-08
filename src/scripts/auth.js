@@ -1,46 +1,71 @@
 import { login } from "../utils/authApi.js";
-import { setToken, isLoggedIn } from "../state/authState.js";
 
-if (isLoggedIn()) {
-    window.location.href = "/map.html";
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+const loginBtn = document.getElementById("loginBtn");
+
+let errorMessage = document.getElementById("errorMessage");
+
+if (!errorMessage) {
+    errorMessage = document.createElement("p");
+    errorMessage.id = "errorMessage";
+    errorMessage.classList.add("error-message");
+    errorMessage.style.display = "none";
+
+    loginBtn && loginBtn.insertAdjacentElement("afterend", errorMessage);
 }
 
-const emailInput = document.querySelector("#emailInput");
-const passwordInput = document.querySelector("#passwordInput");
-const loginBtn = document.querySelector("#loginBtn");
+function setErrorMessage(message) {
+    if (!message) {
+        errorMessage.textContent = "";
+        errorMessage.style.display = "none";
+        return;
+    }
 
-let error = document.querySelector("#errorMessage");
-
-if (!error) {
-    error = document.createElement("p");
-    error.id = "errorMessage";
-    error.classList.add("error-message");
-    loginBtn.insertAdjacentElement("afterend", error);
+    errorMessage.textContent = message;
+    errorMessage.style.display = "block";
 }
 
-function setError(msg) {
-    error.textContent = msg || "";
-}
-
-loginBtn.addEventListener("click", async (e) => {
+loginBtn && loginBtn.addEventListener("click", async (e) => {
     e.preventDefault();
+
+    setErrorMessage("");
 
     const email = emailInput.value.trim();
     const password = passwordInput.value.trim();
 
     if (!email || !password) {
-        setError("Fill in all fields");
+        setErrorMessage("Please fill in both email and password");
         return;
     }
+
+    loginBtn.disabled = true;
 
     try {
         const data = await login(email, password);
 
-        setToken(data.token);
+        console.log("LOGIN RESPONSE:", data);
 
+        if (data?.error || data?.message) {
+            setErrorMessage("Wrong email or password");
+            return;
+        }
+
+        if (!data?.token) {
+            setErrorMessage("Wrong email or password");
+            return;
+        }
+
+        localStorage.setItem("token", data.token);
+
+        setErrorMessage("");
         window.location.href = "/map.html";
 
-    } catch (err) {
-        setError(err.message);
+    } catch (error) {
+        console.error("LOGIN ERROR:", error);
+
+        setErrorMessage("Wrong email or password");
+    } finally {
+        loginBtn.disabled = false;
     }
 });
