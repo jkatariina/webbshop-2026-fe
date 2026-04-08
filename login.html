@@ -21,7 +21,7 @@
             </label>
             <ul class="nav-links">
             <li><a href="/add-plant" class="add-plant">Add plant</a></li>
-            <li><a href="/auth.html" class="auth-link">Log in</a></li>
+            <li><a href="/login.html" class="auth-link">Log in</a></li>
             <li><a href="/map">Map</a></li>
             <li><a href="/profile">Profile</a></li>
             </ul>
@@ -30,26 +30,26 @@
 
         <!-- MAIN CONTENT -->
         <main class="main-content">
-            <section class="auth-container">
+            <section class="auth-container login">
                 <!-- LOGIN FORM -->
-                <div class="auth-box">
+                <form class="auth-box">
                     <h2>Log into Plot Twist</h2>
-                    <input type="text" placeholder="Username">
-                    <input type="password" placeholder="Password">
+                    <input id="emailInput" type="text" placeholder="Email" autocomplete="username">
+                    <input id="passwordInput" type="password" placeholder="Password" autocomplete="password">
                     <button id="loginBtn" class="login-btn">Log in</button>
-                    <a href="/forgot-password.html" class="auth-link">Forgot password?</a>
-                    <a href="/register.html" class="auth-link">Create new account</a>
-                </div>
+                    <a href="/forgot-password.html" class="login-link">Forgot password?</a>
+                    <a href="/register.html" class="register-link">Create new account</a>
+                </form>
             </section>
         </main>
 
         <!-- FOOTER -->
         <footer class="site-footer">
-        <div class="footer-content">
-            <p>&copy; 2026 Plot Twist. All rights reserved.</p>
-            <div class="footer-links">
+            <div class="footer-content">
+                <p>&copy; 2026 Plot Twist. All rights reserved.</p>
+                <div class="footer-links">
+                </div>
             </div>
-        </div>
         </footer>
 
         <!-- PAGE-SPECIFIC JAVASCRIPT -->
