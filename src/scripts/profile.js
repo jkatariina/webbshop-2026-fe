@@ -9,3 +9,8 @@ const userStatusBadge = document.getElementById("userStatusBadge");
 const plantsContainer = document.getElementById("plantsContainer");
 const tradesContainer = document.getElementById("tradesContainer");
 
+const token = localStorage.getItem("token");
+
+if (!localStorage.getItem("token")) {
+  window.location.href = "/login.html";
+}
